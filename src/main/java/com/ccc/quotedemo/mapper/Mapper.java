@@ -1,0 +1,72 @@
+package com.ccc.quotedemo.mapper;
+
+import com.ccc.quotedemo.dto.DoctorDTO;
+import com.ccc.quotedemo.dto.ScheduleDTO;
+import com.ccc.quotedemo.model.DoctorEntity;
+import com.ccc.quotedemo.model.ScheduleEntity;
+
+import java.util.List;
+
+public class Mapper {
+
+    //DoctorEntity to DoctorDTO.
+
+    public static DoctorDTO toSummaryDto(DoctorEntity doctor,Boolean isAvaliable) {
+        if (doctor == null) return null;
+
+
+        return  DoctorDTO.builder().
+                idDoctor(doctor.getIdDoctor()).
+                name(doctor.getName()).
+                title(doctor.getTitle()).
+                available(isAvaliable).
+                schedule(null).
+                build();
+
+
+    }
+    public static DoctorDTO toDto(DoctorEntity doctor,Boolean isAvaliable) {
+        if (doctor == null) return null;
+
+
+        List<ScheduleDTO> scheduleList = (doctor.getSchedules() != null)
+                ? doctor.getSchedules().stream().map(Mapper::toDto).toList()
+                : List.of();
+
+
+        return  DoctorDTO.builder().
+                idDoctor(doctor.getIdDoctor()).
+                name(doctor.getName()).
+                title(doctor.getTitle()).
+                available(isAvaliable).
+                schedule(scheduleList).
+                build();
+
+
+    }
+    public static DoctorEntity toEntity(DoctorDTO dto) {
+        if (dto == null) return null;
+
+        return DoctorEntity.builder().
+                idDoctor(dto.getIdDoctor()).
+                name(dto.getName()).
+                title(dto.getTitle()).
+                isActive(true)
+                .build();
+
+
+    }
+
+    public static ScheduleDTO toDto(ScheduleEntity schedule) {
+        if (schedule == null) return null;
+        return ScheduleDTO.builder().
+                idSchedule(schedule.getIdSchedule()).
+                idDoctor(schedule.getIdDoctor().getIdDoctor()).
+                initDate(schedule.getInitDate()).
+                endDate(schedule.getEndDate()).
+                dayOfWeek(schedule.getDayOfWeek())
+                .build();
+    }
+
+}
+
