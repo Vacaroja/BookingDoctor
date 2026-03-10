@@ -1,8 +1,7 @@
 package com.ccc.quotedemo.service;
 
 import com.ccc.quotedemo.dto.ServicesDTO;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 

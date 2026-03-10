@@ -6,7 +6,6 @@ import com.ccc.quotedemo.mapper.Mapper;
 import com.ccc.quotedemo.model.DoctorServicesEntity;
 import com.ccc.quotedemo.repository.ServicesRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
