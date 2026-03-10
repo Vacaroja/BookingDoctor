@@ -2,12 +2,9 @@ package com.ccc.quotedemo.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -15,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class DoctorServicesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +23,6 @@ public class DoctorServicesEntity {
     private Boolean isActive = true;
 
     @ManyToMany(mappedBy = "services")
-    private Set<DoctorEntity> doctorHas;
+    private Set<DoctorEntity> doctorHas = new HashSet<>();
 
 }

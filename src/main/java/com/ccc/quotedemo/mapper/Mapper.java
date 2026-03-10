@@ -88,6 +88,17 @@ public class Mapper {
                 .build();
 
     }
+    public static DoctorServicesEntity toEntity(ServicesDTO services) {
+        if (services == null) return null;
+        return DoctorServicesEntity.builder()
+                .idServices(services.getIdServices())
+                .name(services.getName())
+                .price(services.getPrice())
+                .duration(services.getDuration())
+                .isActive(true)
+                .build();
+
+    }
 
     public static PatientDTO toDto(PatientEntity patient) {
         return PatientDTO.builder()
