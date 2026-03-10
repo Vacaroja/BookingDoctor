@@ -3,7 +3,9 @@ package com.ccc.quotedemo.mapper;
 import com.ccc.quotedemo.dto.DoctorDTO;
 import com.ccc.quotedemo.dto.PatientDTO;
 import com.ccc.quotedemo.dto.ScheduleDTO;
+import com.ccc.quotedemo.dto.ServicesDTO;
 import com.ccc.quotedemo.model.DoctorEntity;
+import com.ccc.quotedemo.model.DoctorServicesEntity;
 import com.ccc.quotedemo.model.PatientEntity;
 import com.ccc.quotedemo.model.ScheduleEntity;
 
@@ -35,6 +37,9 @@ public class Mapper {
         List<ScheduleDTO> scheduleList = (doctor.getSchedules() != null)
                 ? doctor.getSchedules().stream().map(Mapper::toDto).toList()
                 : List.of();
+        List<ServicesDTO> services = (doctor.getServices() != null)
+                ? doctor.getServices().stream().map(Mapper::toDto).toList()
+                : List.of();
 
 
         return DoctorDTO.builder().
@@ -42,6 +47,7 @@ public class Mapper {
                 name(doctor.getName()).
                 title(doctor.getTitle()).
                 available(isAvaliable).
+                services(services).
                 schedule(scheduleList).
                 build();
 
@@ -70,6 +76,17 @@ public class Mapper {
                 endDate(schedule.getEndDate()).
                 dayOfWeek(schedule.getDayOfWeek())
                 .build();
+    }
+
+    public static ServicesDTO toDto(DoctorServicesEntity services) {
+        if (services == null) return null;
+        return ServicesDTO.builder()
+                .idServices(services.getIdServices())
+                .name(services.getName())
+                .price(services.getPrice())
+                .duration(services.getDuration())
+                .build();
+
     }
 
     public static PatientDTO toDto(PatientEntity patient) {

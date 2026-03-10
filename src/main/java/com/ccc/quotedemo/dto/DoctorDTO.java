@@ -14,7 +14,7 @@ public class DoctorDTO {
     private Long idDoctor;
     private String name;
     private String title;
-
+    private List<ServicesDTO> services;
     private List<ScheduleDTO> schedule;
     private Boolean available = true;
 }
