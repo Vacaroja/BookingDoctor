@@ -1,8 +1,10 @@
 package com.ccc.quotedemo.mapper;
 
 import com.ccc.quotedemo.dto.DoctorDTO;
+import com.ccc.quotedemo.dto.PatientDTO;
 import com.ccc.quotedemo.dto.ScheduleDTO;
 import com.ccc.quotedemo.model.DoctorEntity;
+import com.ccc.quotedemo.model.PatientEntity;
 import com.ccc.quotedemo.model.ScheduleEntity;
 
 import java.util.List;
@@ -11,11 +13,11 @@ public class Mapper {
 
     //DoctorEntity to DoctorDTO.
 
-    public static DoctorDTO toSummaryDto(DoctorEntity doctor,Boolean isAvaliable) {
+    public static DoctorDTO toSummaryDto(DoctorEntity doctor, Boolean isAvaliable) {
         if (doctor == null) return null;
 
 
-        return  DoctorDTO.builder().
+        return DoctorDTO.builder().
                 idDoctor(doctor.getIdDoctor()).
                 name(doctor.getName()).
                 title(doctor.getTitle()).
@@ -25,7 +27,8 @@ public class Mapper {
 
 
     }
-    public static DoctorDTO toDto(DoctorEntity doctor,Boolean isAvaliable) {
+
+    public static DoctorDTO toDto(DoctorEntity doctor, Boolean isAvaliable) {
         if (doctor == null) return null;
 
 
@@ -34,7 +37,7 @@ public class Mapper {
                 : List.of();
 
 
-        return  DoctorDTO.builder().
+        return DoctorDTO.builder().
                 idDoctor(doctor.getIdDoctor()).
                 name(doctor.getName()).
                 title(doctor.getTitle()).
@@ -44,6 +47,7 @@ public class Mapper {
 
 
     }
+
     public static DoctorEntity toEntity(DoctorDTO dto) {
         if (dto == null) return null;
 
@@ -68,5 +72,24 @@ public class Mapper {
                 .build();
     }
 
+    public static PatientDTO toDto(PatientEntity patient) {
+        return PatientDTO.builder()
+                .idPatient(patient.getIdPatient())
+                .name(patient.getName())
+                .age(patient.getAge())
+                .PhoneNumber(patient.getPhoneNumber())
+                .isActive(patient.getIsActive())
+                .build();
+    }
+
+    public static PatientEntity toEntity(PatientDTO patient) {
+        return PatientEntity.builder()
+                .idPatient(patient.getIdPatient())
+                .name(patient.getName())
+                .age(patient.getAge()).
+                phoneNumber(patient.getPhoneNumber())
+                .isActive(patient.getIsActive())
+                .build();
+    }
 }
 
