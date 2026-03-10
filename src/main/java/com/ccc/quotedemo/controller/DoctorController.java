@@ -10,7 +10,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/doctor")
+@RequestMapping("api/v1/doctor")
 public class DoctorController {
 
     @Autowired
@@ -20,6 +20,12 @@ public class DoctorController {
     public ResponseEntity<List<DoctorDTO>> getDoctors() {
         return ResponseEntity.ok(doctorService.getDoctors());
 
+    }
+
+    @GetMapping
+    @RequestMapping("{id}")
+    public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable Long id){
+        return ResponseEntity.ok(doctorService.getDoctorById(id));
     }
 
     @PostMapping
