@@ -1,7 +1,7 @@
 package com.ccc.quotedemo.controller;
 
 import com.ccc.quotedemo.dto.PatientDTO;
-import com.ccc.quotedemo.service.PatientService;
+import com.ccc.quotedemo.service.patient.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

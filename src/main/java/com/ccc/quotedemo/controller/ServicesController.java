@@ -1,7 +1,7 @@
 package com.ccc.quotedemo.controller;
 
 import com.ccc.quotedemo.dto.ServicesDTO;
-import com.ccc.quotedemo.service.ServicesService;
+import com.ccc.quotedemo.service.docservices.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

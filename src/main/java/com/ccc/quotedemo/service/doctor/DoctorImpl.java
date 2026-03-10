@@ -1,4 +1,4 @@
-package com.ccc.quotedemo.service;
+package com.ccc.quotedemo.service.doctor;
 
 import com.ccc.quotedemo.dto.DoctorDTO;
 import com.ccc.quotedemo.exception.NotFoundException;

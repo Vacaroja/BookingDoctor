@@ -1,4 +1,4 @@
-package com.ccc.quotedemo.service;
+package com.ccc.quotedemo.service.schedule;
 
 public class ScheduleImpl implements ScheduleService{
 }
