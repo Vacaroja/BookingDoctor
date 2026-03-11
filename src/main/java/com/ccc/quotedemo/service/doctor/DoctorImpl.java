@@ -37,6 +37,7 @@ public class DoctorImpl implements DoctorService{
     @Transactional
     @Override
     public DoctorDTO getDoctorById(Long id) {
+        if (id == null) throw new IllegalArgumentException("Doctor or Id not valid");
         DoctorEntity doctorEntity = doctorRepository.findByIdWithSchedules(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
         Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctor(id);
 
@@ -46,7 +47,7 @@ public class DoctorImpl implements DoctorService{
     @Transactional
     @Override
     public DoctorDTO createDoctors(DoctorDTO doctorDto) {
-        if (doctorDto == null) return null;
+        if (doctorDto == null || doctorDto.getIdDoctor() == null) throw new IllegalArgumentException("Doctor or Id not valid");
 
         DoctorEntity doctorEntity = Mapper.toEntity(doctorDto);
 
@@ -58,7 +59,7 @@ public class DoctorImpl implements DoctorService{
     @Transactional
     @Override
     public DoctorDTO updateDoctors(Long id, DoctorDTO doctorDto) {
-        if (doctorDto == null) return null;
+        if (doctorDto == null || id == null || doctorDto.getIdDoctor() == null) throw new IllegalArgumentException("Doctor or Id not valid");
         DoctorEntity foundedDoc = doctorRepository.findById(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
 
         foundedDoc.setName(doctorDto.getName());
@@ -73,8 +74,10 @@ public class DoctorImpl implements DoctorService{
     @Transactional
     @Override
     public void deleteDoctor(Long id) {
-        DoctorEntity foundedDoc = doctorRepository.findById(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
-        foundedDoc.setIsActive(false);
-        doctorRepository.save(foundedDoc);
+        if (id != null){
+            DoctorEntity foundedDoc = doctorRepository.findById(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
+            foundedDoc.setIsActive(false);
+            doctorRepository.save(foundedDoc);
+        }else throw new IllegalArgumentException("Doctor or Id not valid");
     }
 }

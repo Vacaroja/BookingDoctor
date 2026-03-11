@@ -28,7 +28,7 @@ public class ServicesImpl implements ServicesService{
     @Transactional
     @Override
     public ServicesDTO getServiceById(Long id) {
-        if (id == null) return null;
+        if (id == null) throw new IllegalArgumentException("Services or Id not valid");
         DoctorServicesEntity service = servicesRepository.findById(id).orElseThrow(() -> new NotFoundException("Services Not Found"));
 
         return Mapper.toDto(service);
@@ -37,7 +37,7 @@ public class ServicesImpl implements ServicesService{
     @Transactional
     @Override
     public ServicesDTO createService(ServicesDTO service) {
-        if (service == null) return null;
+        if (service == null) throw new IllegalArgumentException("Services or Id not valid");
         DoctorServicesEntity serv = servicesRepository.save(Mapper.toEntity(service));
         
         return Mapper.toDto(serv);
@@ -46,7 +46,7 @@ public class ServicesImpl implements ServicesService{
     @Transactional
     @Override
     public ServicesDTO updateService(Long id, ServicesDTO service) {
-        if (service == null || id == null) return null;
+        if (service == null || id == null) throw new IllegalArgumentException("Services or Id not valid");
         DoctorServicesEntity founded = servicesRepository.findById(id).orElseThrow(() -> new NotFoundException("Services Not Founded for Update"));
         founded.setName(service.getName());
         founded.setPrice(service.getPrice());
@@ -62,7 +62,7 @@ public class ServicesImpl implements ServicesService{
             DoctorServicesEntity service = servicesRepository.findById(id).orElseThrow(() -> new NotFoundException("Services Not Found"));
             service.setIsActive(false);
             servicesRepository.save(service);
-        }
+        }else throw new IllegalArgumentException("Services or Id not valid");
 
 
     }

@@ -21,6 +21,7 @@ public class PatientImpl implements PatientService{
     @Transactional
     @Override
     public Page<PatientDTO> getPatients(Pageable pageable) {
+        if (pageable == null) throw new IllegalArgumentException("Patient or Id not valid");
         Page<PatientEntity> patient = patientRepository.findByIsActiveTrue(pageable);
         return patient.map(Mapper::toDto);
     }
@@ -28,7 +29,7 @@ public class PatientImpl implements PatientService{
     @Transactional
     @Override
     public PatientDTO getPatientById(Long id) {
-        if (id == null) return null;
+        if (id == null) throw new IllegalArgumentException("Patient or Id not valid");
         PatientEntity patient = patientRepository.findById(id).orElseThrow(() -> new NotFoundException("Patient Not Found"));
 
         return Mapper.toDto(patient);
@@ -37,7 +38,7 @@ public class PatientImpl implements PatientService{
     @Transactional
     @Override
     public PatientDTO createPatient(PatientDTO patient) {
-        if (patient == null) return null;
+        if (patient == null) throw new IllegalArgumentException("Patient or Id not valid");
         PatientEntity patientEntity = Mapper.toEntity(patient);
 
         PatientEntity savedEntity = patientRepository.save(patientEntity);
@@ -47,7 +48,7 @@ public class PatientImpl implements PatientService{
     @Transactional
     @Override
     public PatientDTO updatePatient(Long id, PatientDTO patient) {
-        if (id == null) return null;
+        if (id == null) throw new IllegalArgumentException("Patient or Id not valid");
         PatientEntity pat = patientRepository.findById(id).orElseThrow(() -> new NotFoundException("Patient Not Found"));
         pat.setName(patient.getName());
         pat.setAge(patient.getAge());
@@ -59,9 +60,11 @@ public class PatientImpl implements PatientService{
     @Transactional
     @Override
     public void deletePatient(Long id) {
-        PatientEntity pat = patientRepository.findById(id).orElseThrow(() -> new NotFoundException("Patient Not Found"));
-        pat.setIsActive(false);
-        patientRepository.save(pat);
+        if (id != null){
+            PatientEntity pat = patientRepository.findById(id).orElseThrow(() -> new NotFoundException("Patient Not Found"));
+            pat.setIsActive(false);
+            patientRepository.save(pat);
+        }else throw new IllegalArgumentException("Patient or Id not valid");
 
     }
 }
