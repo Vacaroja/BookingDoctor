@@ -1,10 +1,7 @@
 package com.ccc.quotedemo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 public class ScheduleEntity {
     @Id
@@ -19,10 +17,11 @@ public class ScheduleEntity {
     private Long idSchedule;
 
     @ManyToOne
-    @JoinColumn(name = "id_doctor")
+    @JoinColumn(name = "id_doctor",nullable = false)
     private DoctorEntity idDoctor;
 
     private LocalDateTime initDate;
     private LocalDateTime endDate;
     private Integer dayOfWeek;
+    private Boolean isActive = true;
 }

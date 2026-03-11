@@ -23,7 +23,7 @@ public class ServicesController {
     }
 
     @GetMapping
-    @RequestMapping("{id}")
+    @RequestMapping("/{id}")
     public ResponseEntity<ServicesDTO> getDoctorById(@PathVariable Long id){
         return ResponseEntity.ok(services.getServiceById(id));
     }
