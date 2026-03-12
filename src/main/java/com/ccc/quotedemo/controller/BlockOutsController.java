@@ -14,20 +14,18 @@ import java.util.List;
 public class BlockOutsController {
 
     @Autowired
-    ScheduleBlockoutService blockoutService;
+    private ScheduleBlockoutService blockoutService;
 
     @GetMapping
     public ResponseEntity<List<ScheduleBlockoutDTO>> getBlockout() {
         return ResponseEntity.ok(blockoutService.getAllSchedule());
     }
-    @GetMapping
-    @RequestMapping("/doctor")
+    @GetMapping("/doctor")
     public ResponseEntity<List<ScheduleBlockoutDTO>> getBlockoutByDoctor(@RequestParam(name = "idDoctor") Long id) {
         return ResponseEntity.ok(blockoutService.getAllByIdDoctor(id));
     }
 
-    @GetMapping
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ScheduleBlockoutDTO> getBlockoutById(@PathVariable Long id){
         return ResponseEntity.ok(blockoutService.getBlockOutById(id));
     }
