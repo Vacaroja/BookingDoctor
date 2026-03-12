@@ -39,7 +39,7 @@ public class DoctorImpl implements DoctorService{
     public DoctorDTO getDoctorById(Long id) {
         if (id == null) throw new IllegalArgumentException("Doctor or Id not valid");
         DoctorEntity doctorEntity = doctorRepository.findByIdWithSchedules(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
-        Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctor(id);
+        Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(id);
 
         return Mapper.toDto(doctorEntity, isAvailable);
     }
@@ -66,7 +66,7 @@ public class DoctorImpl implements DoctorService{
         foundedDoc.setTitle(doctorDto.getTitle());
 
         DoctorEntity savedEntity = doctorRepository.save(foundedDoc);
-        Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctor(id);
+        Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(id);
 
 
         return Mapper.toDto(savedEntity, isAvailable);

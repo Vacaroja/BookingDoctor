@@ -11,8 +11,8 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity,Long> {
 
     @Query("SELECT s FROM ScheduleEntity s " +
             "LEFT JOIN FETCH s.idDoctor " +
-            "WHERE s.idDoctor.id = :id " + // Accedemos al ID del objeto doctor
-            "AND s.isActive = true")       // Filtramos por activos
+            "WHERE s.idDoctor.id = :id " +
+            "AND s.isActive = true")
     List<ScheduleEntity> findAllActiveSchedulesByDoctorId(@Param("id") Long id);
 
     List<ScheduleEntity> findByIsActiveTrue();

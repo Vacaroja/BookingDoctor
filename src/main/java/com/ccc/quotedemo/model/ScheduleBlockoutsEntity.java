@@ -2,28 +2,28 @@ package com.ccc.quotedemo.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class ScheduleBlockoutsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idServices;
+    private Long idBlockOut;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private DoctorEntity doctor;
 
-    private LocalDate initDate;
-    private LocalDate endDate;
+    private LocalDateTime initDate;
+    private LocalDateTime endDate;
     private String reason;
+    private Boolean isActive = true;
 
 }
