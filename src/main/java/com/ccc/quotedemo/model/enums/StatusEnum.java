@@ -1,8 +1,8 @@
 package com.ccc.quotedemo.model.enums;
 
 public enum StatusEnum {
-    PENDIENTE,
-    CONFIRMADA,
-    CANCELADA,
-    COMPLETADA
+    PENDING,     // PENDIENTE
+    CONFIRMED,   // CONFIRMADA
+    CANCELLED,   // CANCELADA
+    COMPLETED
 }
