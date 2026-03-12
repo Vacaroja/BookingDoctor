@@ -30,4 +30,15 @@ public class DoctorEntity {
     @JoinTable(name = "doctor_services", joinColumns = @JoinColumn(name = "doctor_id"),
             inverseJoinColumns = @JoinColumn(name = "services_id"))
     private Set<DoctorServicesEntity> services = new HashSet<>();
+
+    public void addServices(DoctorServicesEntity doctorServices){
+        if (doctorServices != null){
+            this.services.add(doctorServices);
+        }
+    }
+    public void deleteServices(DoctorServicesEntity doctorServices){
+        if (doctorServices != null){
+            this.services.remove(doctorServices);
+        }
+    }
 }

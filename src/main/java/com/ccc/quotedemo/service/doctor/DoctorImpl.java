@@ -2,10 +2,13 @@ package com.ccc.quotedemo.service.doctor;
 
 import com.ccc.quotedemo.dto.DoctorDTO;
 import com.ccc.quotedemo.exception.NotFoundException;
+import com.ccc.quotedemo.exception.ResourceNotFoundException;
 import com.ccc.quotedemo.mapper.Mapper;
 import com.ccc.quotedemo.model.DoctorEntity;
+import com.ccc.quotedemo.model.DoctorServicesEntity;
 import com.ccc.quotedemo.repository.DoctorRepository;
 import com.ccc.quotedemo.repository.ScheduleBlockoutRepository;
+import com.ccc.quotedemo.repository.ServicesRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,9 @@ public class DoctorImpl implements DoctorService{
     @Autowired
     private ScheduleBlockoutRepository scheduleBlockOutRepository;
 
+    @Autowired
+    private ServicesRepository servicesRepository;
+
 
     @Transactional
     @Override
@@ -39,15 +45,39 @@ public class DoctorImpl implements DoctorService{
     public DoctorDTO getDoctorById(Long id) {
         if (id == null) throw new IllegalArgumentException("Doctor or Id not valid");
         DoctorEntity doctorEntity = doctorRepository.findByIdWithSchedules(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
-        Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(id);
+        Boolean isAvailable = !scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(id);
 
         return Mapper.toDto(doctorEntity, isAvailable);
     }
 
     @Transactional
     @Override
+    public DoctorDTO linkDoctorWithServices(Long idDoctor, Long idServices) {
+        DoctorEntity doctorEntity = doctorRepository.findByIdDoctorAndIsActiveTrue(idDoctor).orElseThrow(() -> new NotFoundException("Doctor Not Found to link"));
+        DoctorServicesEntity servicesEntity = servicesRepository.findByIdServicesAndIsActiveTrue(idServices).orElseThrow(() -> new NotFoundException("Servoces Not Founded to link"));
+        doctorEntity.addServices(servicesEntity);
+        Boolean isAvailable = !scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(idDoctor);
+
+        return Mapper.toDto(doctorRepository.save(doctorEntity),isAvailable);
+    }
+
+    @Transactional
+    @Override
+    public DoctorDTO unlinkDoctorWithServices(Long idDoctor, Long idServices) {
+        DoctorEntity doctorEntity = doctorRepository.findByIdDoctorAndIsActiveTrue(idDoctor).orElseThrow(() -> new NotFoundException("Doctor Not Found to link"));
+        DoctorServicesEntity servicesEntity = servicesRepository.findByIdServicesAndIsActiveTrue(idServices).orElseThrow(() -> new NotFoundException("Services Not Founded to link"));
+        Boolean doctorHas = doctorRepository.existsByIdDoctorAndServices_IdServices(idDoctor,idServices);
+        if (!doctorHas) throw new ResourceNotFoundException("Doctor not has the service");
+        doctorEntity.deleteServices(servicesEntity);
+        Boolean isAvailable = !scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(idDoctor);
+
+        return Mapper.toDto(doctorRepository.save(doctorEntity),isAvailable);
+    }
+
+    @Transactional
+    @Override
     public DoctorDTO createDoctors(DoctorDTO doctorDto) {
-        if (doctorDto == null || doctorDto.getIdDoctor() == null) throw new IllegalArgumentException("Doctor or Id not valid");
+        if (doctorDto == null) throw new IllegalArgumentException("Doctor or Id not valid");
 
         DoctorEntity doctorEntity = Mapper.toEntity(doctorDto);
 
@@ -59,14 +89,14 @@ public class DoctorImpl implements DoctorService{
     @Transactional
     @Override
     public DoctorDTO updateDoctors(Long id, DoctorDTO doctorDto) {
-        if (doctorDto == null || id == null || doctorDto.getIdDoctor() == null) throw new IllegalArgumentException("Doctor or Id not valid");
+        if (doctorDto == null || id == null ) throw new IllegalArgumentException("Doctor or Id not valid");
         DoctorEntity foundedDoc = doctorRepository.findById(id).orElseThrow(() -> new NotFoundException("Doctor Not Found"));
 
         foundedDoc.setName(doctorDto.getName());
         foundedDoc.setTitle(doctorDto.getTitle());
 
         DoctorEntity savedEntity = doctorRepository.save(foundedDoc);
-        Boolean isAvailable = scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(id);
+        Boolean isAvailable = !scheduleBlockOutRepository.existsByDoctor_IdDoctorAndIsActiveTrue(id);
 
 
         return Mapper.toDto(savedEntity, isAvailable);
