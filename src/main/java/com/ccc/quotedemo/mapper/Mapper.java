@@ -116,7 +116,7 @@ public class Mapper {
                 .name(patient.getName())
                 .age(patient.getAge()).
                 phoneNumber(patient.getPhoneNumber())
-                .isActive(patient.getIsActive())
+                .isActive(true)
                 .build();
     }
 }
