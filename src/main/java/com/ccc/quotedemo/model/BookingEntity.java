@@ -2,10 +2,7 @@ package com.ccc.quotedemo.model;
 
 import com.ccc.quotedemo.model.enums.StatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class BookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +30,8 @@ public class BookingEntity {
     private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
-    private StatusEnum status = StatusEnum.PENDIENTE;
+    private StatusEnum status = StatusEnum.PENDING;
+
+    private Boolean isActive = true;
 
 }

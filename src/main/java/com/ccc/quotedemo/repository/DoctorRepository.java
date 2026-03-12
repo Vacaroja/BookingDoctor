@@ -17,5 +17,7 @@ public interface DoctorRepository extends JpaRepository<DoctorEntity,Long> {
 
     Optional<DoctorEntity> findByIdDoctorAndIsActiveTrue(Long id);
 
+    Boolean existsByIdDoctorAndServices_IdServices(Long idDoctor, Long idService);
+
 
 }

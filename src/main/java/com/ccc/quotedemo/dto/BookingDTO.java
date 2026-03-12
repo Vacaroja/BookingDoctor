@@ -1,17 +1,10 @@
 package com.ccc.quotedemo.dto;
 
 
-import com.ccc.quotedemo.model.DoctorEntity;
-import com.ccc.quotedemo.model.DoctorServicesEntity;
-import com.ccc.quotedemo.model.PatientEntity;
+
 import com.ccc.quotedemo.model.enums.StatusEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class BookingDTO {
     private Long idBooking;
 

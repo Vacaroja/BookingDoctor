@@ -39,7 +39,6 @@ public class ServicesImpl implements ServicesService{
     public ServicesDTO createService(ServicesDTO service) {
         if (service == null) throw new IllegalArgumentException("Services or Id not valid");
         DoctorServicesEntity serv = servicesRepository.save(Mapper.toEntity(service));
-        
         return Mapper.toDto(serv);
     }
 
